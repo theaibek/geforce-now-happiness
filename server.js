@@ -9,7 +9,7 @@ Object.assign = require('object-assign');
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 	ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -60,7 +60,9 @@ var searchIP = function (ip, callback) {
 		return;
 	}
 	db.collection('records').findOne({ip: ip}, (function (error, result) {
-		callback(!!result);
+		if (error || !result) callback(false);
+		else if (result['ip'] === ip) callback(true);
+		else callback(false);
 	}));
 };
 
@@ -92,17 +94,17 @@ var aggregateRecords = function (callback) {
 	db.collection('records').aggregate([{
 		$group: {
 			_id: null,
-			users: { $sum: 1 },
-			usersUS: { $sum: { $cond: [{ $eq: ['$location', 'us'] }, 1, 0] } },
-			usersEU: { $sum: { $cond: [{ $eq: ['$location', 'eu'] }, 1, 0] } },
-			usersPC: { $sum: { $cond: [{ $eq: ['$os', 'pc'] }, 1, 0] } },
-			usersMac: { $sum: { $cond: [{ $eq: ['$os', 'mac'] }, 1, 0] } },
-			avgAge: { $avg: '$age' },
-			minAge: { $min: '$age' },
-			maxAge: { $max: '$age' },
-			avgWT: { $avg: '$wait_time' },
-			minWT: { $min: '$wait_time' },
-			maxWT: { $max: '$wait_time' }
+			users: {$sum: 1},
+			usersUS: {$sum: {$cond: [{$eq: ['$location', 'us']}, 1, 0]}},
+			usersEU: {$sum: {$cond: [{$eq: ['$location', 'eu']}, 1, 0]}},
+			usersPC: {$sum: {$cond: [{$eq: ['$os', 'pc']}, 1, 0]}},
+			usersMac: {$sum: {$cond: [{$eq: ['$os', 'mac']}, 1, 0]}},
+			avgAge: {$avg: '$age'},
+			minAge: {$min: '$age'},
+			maxAge: {$max: '$age'},
+			avgWT: {$avg: '$wait_time'},
+			minWT: {$min: '$wait_time'},
+			maxWT: {$max: '$wait_time'}
 		}
 	}], function (error, result) {
 		if (error || !result || !result[0]) {
@@ -127,7 +129,7 @@ var aggregateRecords = function (callback) {
 	});
 };
 
-var renderHome = function(req, res) {
+var renderHome = function (req, res) {
 	aggregateRecords(function (data) {
 		searchIP(req.ip, function (exists) {
 			data['exists'] = exists;
