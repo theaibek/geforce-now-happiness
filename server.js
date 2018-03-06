@@ -2,12 +2,14 @@
 var express = require('express'),
 	app = express(),
 	morgan = require('morgan'),
-	bodyParser = require('body-parser');
+	bodyParser = require('body-parser'),
+	cookieParser = require('cookie-parser');
 
 Object.assign = require('object-assign');
 
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -62,6 +64,7 @@ var insertRecord = function (record, callback) {
 
 var aggregateRecords = function (callback) {
 	var data = {
+		exists: false,
 		count: 0,
 		ageAvg: 0,
 		ageMin: 0,
@@ -99,6 +102,7 @@ var aggregateRecords = function (callback) {
 			return;
 		}
 		data = {
+			exists: false,
 			count: result[0]['users'],
 			ageAvg: Math.round(result[0]['avgAge']),
 			ageMin: result[0]['minAge'],
@@ -117,6 +121,9 @@ var aggregateRecords = function (callback) {
 
 var renderHome = function (req, res) {
 	aggregateRecords(function (data) {
+		if (req.cookies && req.cookies['gfnhs'] === 'sbmt') {
+			data['exists'] = true;
+		}
 		res.render('index.html', data);
 	});
 };
@@ -135,7 +142,7 @@ app.post('/submit', function (req, res) {
 		timestamp: new Date().toISOString()
 	};
 	insertRecord(record, function (err) {
-		res.redirect('/');
+		res.cookie('gfnhs', 'sbmt').redirect('/');
 	});
 });
 
