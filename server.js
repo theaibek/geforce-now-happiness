@@ -54,18 +54,6 @@ var initDb = function (callback) {
 	});
 };
 
-var searchIP = function (ip, callback) {
-	if (!db) {
-		callback(false);
-		return;
-	}
-	db.collection('records').findOne({ip: ip}, (function (error, result) {
-		if (error || !result) callback(false);
-		else if (result['ip'] === ip) callback(true);
-		else callback(false);
-	}));
-};
-
 var insertRecord = function (record, callback) {
 	db.collection('records').insertOne(record, (function (error) {
 		callback(error);
@@ -74,7 +62,6 @@ var insertRecord = function (record, callback) {
 
 var aggregateRecords = function (callback) {
 	var data = {
-		exists: false,
 		count: 0,
 		ageAvg: 0,
 		ageMin: 0,
@@ -112,7 +99,6 @@ var aggregateRecords = function (callback) {
 			return;
 		}
 		data = {
-			exists: false,
 			count: result[0]['users'],
 			ageAvg: Math.round(result[0]['avgAge']),
 			ageMin: result[0]['minAge'],
@@ -131,10 +117,7 @@ var aggregateRecords = function (callback) {
 
 var renderHome = function (req, res) {
 	aggregateRecords(function (data) {
-		searchIP(req.ip, function (exists) {
-			data['exists'] = exists;
-			res.render('index.html', data);
-		});
+		res.render('index.html', data);
 	});
 };
 
