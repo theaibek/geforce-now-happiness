@@ -9,7 +9,11 @@
 	<script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
 	<style>
 		html {
-			background: #fafafa;
+			background: linear-gradient(rgba(0, 0, 0, .64), rgba(0, 0, 0, .64)), url(https://www.turn-on.de/media/cms/2017/10/pubg-vs.-fortnite.jpg) no-repeat center center fixed, linear-gradient(#511F37, #511F37);
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
 		}
 
 		@media screen and (min-width: 1408px) {
@@ -95,10 +99,10 @@
 </nav>
 
 <div class="container app-container" style="margin-top: 1rem; margin-bottom: 1rem;">
-	<div class="title is-3">Geforce NOW Happiness</div>
-	<div class="subtitle is-5">Let's see some analytics about the happiness of <a style="color: #76b900"
-																																								href="https://www.nvidia.com/en-us/geforce/products/geforce-now/mac-pc/"
-																																								target="_blank">Geforce NOW</a> users!
+	<div class="title is-3 has-text-white">Geforce NOW Happiness</div>
+	<div class="subtitle is-5 has-text-light">Let's see some analytics about the happiness of
+		<a style="color: #76b900" target="_blank" href="https://www.nvidia.com/en-us/geforce/products/geforce-now/mac-pc/">
+			Geforce NOW</a> users!
 	</div>
 </div>
 
@@ -149,7 +153,7 @@
 
 
 <div class="container app-container has-text-centered" style="margin-top: 3rem; margin-bottom: 3rem;">
-	<p class="subtitle is-3">Have not yet received your <strong>code</strong>?</p>
+	<p class="subtitle is-3 has-text-white">Have not yet received your <strong class="has-text-white">code</strong>?</p>
 	<a class="button is-dark is-rounded" style="background: #76b900"
 		 href="https://www.nvidia.com/en-us/geforce/products/geforce-now/mac-pc/" target="_blank">
 		<strong>Request Beta Access →</strong>
@@ -225,7 +229,7 @@
 								<div class="select" style="width: 100% !important;">
 									<select name="age" id="age" style="width: 100% !important;" required>
 										<option value="" selected disabled hidden>Select your age</option>
-										<% for (var i = 12; i <= 36; i++) { %>
+										<% for (var i = 12; i <= 101; i++) { %>
 										<option value="<%= i %>"><%= i %></option>
 										<% } %>
 									</select>
@@ -250,12 +254,21 @@
 <% } %>
 
 <div class="container app-container" style="padding-top: 2rem; padding-bottom: 2rem;">
-	<div class="has-text-grey-light has-text-centered">
+	<div class="has-text-light has-text-centered">
 		<p>GFNH &copy; 2018</p>
-		<p><strong class="has-text-dark"><></strong> with <strong class="has-text-danger">&hearts;</strong> by <a
+		<p><strong class="has-text-white"><></strong> with <strong class="has-text-danger">&hearts;</strong> by <a
 				style="color: #76b900" href="https://twitter.com/theaibek" target="_blank">@theaibek</a></p>
 		---
-		<p>* All rights to the logo belong to <a href="https://www.nvidia.com" class="has-text-dark" target="_blank">Nvidia</a></p>
+		<p>* All rights to the logo belong to
+			<a href="https://www.nvidia.com" target="_blank" style="color: #76b900">
+				<strong>Nvidia</strong>
+			</a>
+			<br>* Background image from
+			<a href="https://www.turn-on.de/play/news/fortnite-battle-royale-im-westen-schon-groesser-als-pubg-342552"
+				 target="_blank" style="color: #FFF">
+				<strong>www.turn-on.de</strong>
+			</a>
+		</p>
 	</div>
 </div>
 </body>
